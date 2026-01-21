@@ -123,6 +123,12 @@ export class Filter implements OnInit{
     }
 
 
+<<<<<<< HEAD
+    this.partialParams.page = 1;  // added this
+    this.partialParams.size = 10; // added this
+
+=======
+>>>>>>> 56438dde39ab7a255a9c9f35755d747a971ff9d7
     this.productService.getFilteredProducts(this.partialParams, this.selectedBrands, this.selectedSizes, this.selectedColors)
       .subscribe({
         next: (response: any) => {

@@ -28,7 +28,12 @@ export class AdminProductService {
 
 
   public getBrands(): Observable<BrandResponse[]>{
+<<<<<<< HEAD
+    const url: string = `${environment.PRODUCT_URL}/brands`;
+    return this.http.get<BrandResponse[]>(url);
+=======
     return this.http.get<BrandResponse[]>(this.brandUrl);
+>>>>>>> 56438dde39ab7a255a9c9f35755d747a971ff9d7
   }
 
   public addBrand(request: BrandRequest): Observable<BrandResponse>{
@@ -45,7 +50,12 @@ export class AdminProductService {
 
 
   public getSizes(): Observable<SizeResponse[]>{
+<<<<<<< HEAD
+    const url: string = `${environment.PRODUCT_URL}/sizes`;
+    return this.http.get<SizeResponse[]>(url);
+=======
     return this.http.get<SizeResponse[]>(this.sizeUrl);
+>>>>>>> 56438dde39ab7a255a9c9f35755d747a971ff9d7
   }
 
   public addSize(request: SizeRequest): Observable<SizeResponse>{
@@ -62,7 +72,12 @@ export class AdminProductService {
 
 
   public getColors(): Observable<ColorResponse[]>{
+<<<<<<< HEAD
+    const url: string = `${environment.PRODUCT_URL}/colors`;
+    return this.http.get<ColorResponse[]>(url); 
+=======
     return this.http.get<ColorResponse[]>(this.colorUrl); 
+>>>>>>> 56438dde39ab7a255a9c9f35755d747a971ff9d7
   }
 
   public addColor(request: ColorRequest): Observable<ColorResponse>{
