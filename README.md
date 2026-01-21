@@ -2,6 +2,14 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.0.
 
+## Demos
+
+![kickscorner_browse](https://github.com/user-attachments/assets/1b6ae319-d69a-4171-9dfb-33b926340216)
+
+![kickscorner_cart](https://github.com/user-attachments/assets/a6171038-4e75-4b3c-83f4-3594bb8f9a3b)
+
+![kickscorner_admin](https://github.com/user-attachments/assets/eaf6160c-62fe-40df-9e8d-ba19d4441018)
+
 ## Development server
 
 To start a local development server, run:
