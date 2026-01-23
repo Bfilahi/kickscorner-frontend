@@ -31,7 +31,8 @@ export class Filter implements OnInit{
   @Input() sorting: string = '';
   @Input() sortingEvent!: Observable<string>;
   @Output() showFilterChange = new EventEmitter<boolean>();
-  @Output() getProducts = new EventEmitter<{response: ProductResponse[], selectedBrands: number[], selectedSizes: number[], selectedColors: number[]}>();
+  @Output() getProducts = new EventEmitter<{response: any, brands: number[], sizes: number[], colors: number[]}>();
+  @Output() onClearFilters = new EventEmitter<void>();
 
   public brands: BrandResponse[] = [];
   public sizes: SizeResponse[] = [];
@@ -129,7 +130,12 @@ export class Filter implements OnInit{
     this.productService.getFilteredProducts(this.partialParams, this.selectedBrands, this.selectedSizes, this.selectedColors)
       .subscribe({
         next: (response: any) => {
-          this.getProducts.emit({response: response, selectedBrands: this.selectedBrands, selectedSizes: this.selectedSizes, selectedColors: this.selectedColors});
+          this.getProducts.emit({
+            response,
+            brands: this.selectedBrands,
+            sizes: this.selectedSizes,
+            colors: this.selectedColors
+          });
           this.spinnerService.hide();
         },
         error: (err: HttpErrorResponse) => {
@@ -155,6 +161,8 @@ export class Filter implements OnInit{
     this.selectedBrands = [];
     this.selectedColors = [];
     this.selectedSizes = [];
+
+    this.onClearFilters.emit();
   }
 
 }

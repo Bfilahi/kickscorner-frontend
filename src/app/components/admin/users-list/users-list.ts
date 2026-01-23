@@ -69,7 +69,7 @@ export class UsersList implements OnInit{
     });
   }
 
-    public promoteToSuperAdmin(id: number){
+  public promoteToSuperAdmin(id: number){
     this.spinnerService.show();
 
     this.adminService.promoteToSuperAdmin(id).subscribe({
@@ -115,6 +115,7 @@ export class UsersList implements OnInit{
   }
 
   public onPageChange(page: number){
+    this.partialParams.page = page;
     this.listUsers(this.partialParams);
   }
 
@@ -125,9 +126,10 @@ export class UsersList implements OnInit{
     this.adminService.getAllUsers(partialParams).subscribe({
       next: (response: any) => {
         this.users = response.content;
-        this.totalItems = response.totalElements;
-        this.partialParams.page = response.number + 1;
-        this.partialParams.size = response.size;
+
+        this.totalItems = response.page.totalElements;
+        this.partialParams.page = response.page.number + 1;
+        this.partialParams.size = response.page.size;
 
         this.cdr.detectChanges();
 

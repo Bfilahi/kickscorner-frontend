@@ -16,13 +16,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
   templateUrl: './products.html',
   styleUrl: './products.css'
 })
-export class Products implements OnInit{
+export class Products implements OnInit {
 
   public showFilter: boolean = false;
   public isLoading: boolean = true;
   public sortingSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public products: ProductResponse[] = [];
-  public partialParams: {page: number, size: number, sort: string, direction: string} = {
+  public partialParams: { page: number, size: number, sort: string, direction: string } = {
     page: 1,
     size: 10,
     sort: '',
@@ -30,66 +30,81 @@ export class Products implements OnInit{
   };
   public totalItems: number = 0;
 
-  private selectedBrands: number[] = [];
-  private selectedSizes: number[] = [];
-  private selectedColors: number[] = [];
+  private currentBrands: number[] = [];
+  private currentSizes: number[] = [];
+  private currentColors: number[] = [];
 
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
     private spinnerService: NgxSpinnerService
-  ){}
+  ) { }
 
 
   ngOnInit(): void {
-    this.spinnerService.show();
     this.listProducts();
   }
 
-  get showingStart(): number{
-    if(!this.totalItems || this.totalItems === 0 )
+  get showingStart(): number {
+    if (!this.totalItems || this.totalItems === 0)
       return 0;
     return (this.partialParams.page - 1) * (this.partialParams.size) + 1;
   }
 
-  get showingEnd(): number{
-    if(!this.totalItems || this.totalItems === 0 )
+  get showingEnd(): number {
+    if (!this.totalItems || this.totalItems === 0)
       return 0;
     const end = this.partialParams.page * this.partialParams.size;
     return Math.min(end, this.totalItems);
   }
 
 
-  public onSortChange(event: Event){
+  public onSortChange(event: Event) {
     const target = event.target as HTMLInputElement;
 
-    if(target)
+    if (target)
       this.sortingSubject.next(target.value);
   }
 
-  public updateProducts(response: any){
-    this.products = response.response.content;
-    this.partialParams.page = response.response.number + 1;
-    this.partialParams.size = response.response.size;
-    this.totalItems = response.response.totalElements;
+  public updateProducts(event: {response: any, brands: number[], sizes: number[], colors: number[]}) {
+    this.currentBrands = event.brands;
+    this.currentSizes = event.sizes;
+    this.currentColors = event.colors;
 
-    this.selectedBrands = response.selectedBrands;
-    this.selectedSizes = response.selectedSizes;
-    this.selectedColors = response.selectedColors;
+    this.products = event.response.content;
+    this.partialParams.page = event.response.page.number + 1;
+    this.partialParams.size = event.response.page.size;
+    this.totalItems = event.response.page.totalElements;
+
+    this.cdr.detectChanges();
   }
 
-  public onPageChange(page: number){
+  public onPageChange(page: number) {
     this.partialParams.page = page;
     this.listProducts();
   }
 
-  private listProducts(){
-      this.productService.getFilteredProducts(this.partialParams, this.selectedBrands, this.selectedSizes, this.selectedColors).subscribe({
+  public resetToDefault() {
+    this.currentBrands = [];
+    this.currentSizes = [];
+    this.currentColors = [];
+    this.partialParams.page = 1;
+    this.listProducts();
+  }
+
+  private listProducts() {
+    this.spinnerService.show();
+
+    const request$ = this.hasActiveFilters()
+      ? this.productService.getFilteredProducts(this.partialParams, this.currentBrands, this.currentSizes, this.currentColors)
+      : this.productService.getProducts(this.partialParams);
+
+    request$.subscribe({
       next: (response: any) => {
         this.products = response.content;
-        this.partialParams.page = response.number + 1;
-        this.partialParams.size = response.size;
-        this.totalItems = response.totalElements;
+        this.partialParams.page = response.page.number + 1;
+        this.partialParams.size = response.page.size;
+        this.totalItems = response.page.totalElements;
 
         this.cdr.detectChanges();
 
@@ -97,9 +112,16 @@ export class Products implements OnInit{
         this.isLoading = false;
       },
       error: (err: HttpErrorResponse) => {
+        this.spinnerService.hide();
         console.error(err);
       }
     });
+  }
+
+  private hasActiveFilters(): boolean {
+    return this.currentBrands.length > 0 ||
+      this.currentSizes.length > 0 ||
+      this.currentColors.length > 0;
   }
 
 }

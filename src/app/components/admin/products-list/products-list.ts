@@ -51,10 +51,9 @@ export class ProductsList implements OnInit{
     this.productService.getProducts(partialParams).subscribe({
       next: (response: any) => {
         this.products = response.content;
-        this.totalItems = response.totalElements;
-
-        this.partialParams.page = response.number + 1;
-        this.partialParams.size = response.size;
+        this.totalItems = response.page.totalElements;
+        this.partialParams.page = response.page.number + 1;
+        this.partialParams.size = response.page.size;
 
         this.cdr.detectChanges();
 
@@ -72,6 +71,7 @@ export class ProductsList implements OnInit{
 
 
   public onPageChange(page: number){
+    this.partialParams.page = page;
     this.listProducts(this.partialParams);
   }
 
