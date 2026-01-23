@@ -131,7 +131,6 @@ export class Filter implements OnInit{
         next: (response: any) => {
           this.getProducts.emit({response: response, selectedBrands: this.selectedBrands, selectedSizes: this.selectedSizes, selectedColors: this.selectedColors});
           this.spinnerService.hide();
-          console.log(response);
         },
         error: (err: HttpErrorResponse) => {
           console.error(err.error);

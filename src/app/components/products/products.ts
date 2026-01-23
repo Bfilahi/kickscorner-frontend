@@ -76,14 +76,10 @@ export class Products implements OnInit{
     this.selectedBrands = response.selectedBrands;
     this.selectedSizes = response.selectedSizes;
     this.selectedColors = response.selectedColors;
-
-    console.log('response from updateProducts', response);
   }
 
   public onPageChange(page: number){
     this.partialParams.page = page;
-    console.log(this.partialParams.page);
-    console.log(this.partialParams.size);
     this.listProducts();
   }
 
