@@ -30,6 +30,10 @@ export class Products implements OnInit{
   };
   public totalItems: number = 0;
 
+  private selectedBrands: number[] = [];
+  private selectedSizes: number[] = [];
+  private selectedColors: number[] = [];
+
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
@@ -64,19 +68,27 @@ export class Products implements OnInit{
   }
 
   public updateProducts(response: any){
-    this.products = response.content;
-    this.partialParams.page = response.number + 1;
-    this.partialParams.size = response.size;
-    this.totalItems = response.totalElements;
+    this.products = response.response.content;
+    this.partialParams.page = response.response.number + 1;
+    this.partialParams.size = response.response.size;
+    this.totalItems = response.response.totalElements;
+
+    this.selectedBrands = response.selectedBrands;
+    this.selectedSizes = response.selectedSizes;
+    this.selectedColors = response.selectedColors;
+
+    console.log('response from updateProducts', response);
   }
 
   public onPageChange(page: number){
     this.partialParams.page = page;
+    console.log(this.partialParams.page);
+    console.log(this.partialParams.size);
     this.listProducts();
   }
 
   private listProducts(){
-    this.productService.getProducts(this.partialParams).subscribe({
+      this.productService.getFilteredProducts(this.partialParams, this.selectedBrands, this.selectedSizes, this.selectedColors).subscribe({
       next: (response: any) => {
         this.products = response.content;
         this.partialParams.page = response.number + 1;

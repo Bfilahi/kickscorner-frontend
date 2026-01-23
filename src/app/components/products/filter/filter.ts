@@ -31,7 +31,7 @@ export class Filter implements OnInit{
   @Input() sorting: string = '';
   @Input() sortingEvent!: Observable<string>;
   @Output() showFilterChange = new EventEmitter<boolean>();
-  @Output() getProducts = new EventEmitter<ProductResponse[]>();
+  @Output() getProducts = new EventEmitter<{response: ProductResponse[], selectedBrands: number[], selectedSizes: number[], selectedColors: number[]}>();
 
   public brands: BrandResponse[] = [];
   public sizes: SizeResponse[] = [];
@@ -123,17 +123,15 @@ export class Filter implements OnInit{
     }
 
 
-<<<<<<< HEAD
-    this.partialParams.page = 1;  // added this
-    this.partialParams.size = 10; // added this
+    this.partialParams.page = 1; 
+    this.partialParams.size = 10; 
 
-=======
->>>>>>> 56438dde39ab7a255a9c9f35755d747a971ff9d7
     this.productService.getFilteredProducts(this.partialParams, this.selectedBrands, this.selectedSizes, this.selectedColors)
       .subscribe({
         next: (response: any) => {
-          this.getProducts.emit(response);
+          this.getProducts.emit({response: response, selectedBrands: this.selectedBrands, selectedSizes: this.selectedSizes, selectedColors: this.selectedColors});
           this.spinnerService.hide();
+          console.log(response);
         },
         error: (err: HttpErrorResponse) => {
           console.error(err.error);

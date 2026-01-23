@@ -20,6 +20,8 @@ export class ProductService {
     .set('sortBy', partialParams.sort)
     .set('direction', partialParams.direction);
 
+    console.log('params', params);
+
     return this.http.get<GetResponseProducts>(this.productUrl, { params });
   }
 
