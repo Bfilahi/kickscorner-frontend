@@ -1,8 +1,8 @@
 export const environment = {
-    AUTH_URL: 'http://localhost:8080/api/auth',
-    PRODUCT_URL: 'http://localhost:8080/api/products',
-    ADMIN_BASE_URL: 'http://localhost:8080/api/admin',
-    USER_URL: 'http://localhost:8080/api/users',
-    PAYMENT_URL: 'http://localhost:8080/api/payment',
-    ORDERS_URL: 'http://localhost:8080/api/orders'
+    AUTH_URL: 'https://kickscorner-app-latest.onrender.com/api/auth',
+    PRODUCT_URL: 'https://kickscorner-app-latest.onrender.com/api/products',
+    ADMIN_BASE_URL: 'https://kickscorner-app-latest.onrender.com/api/admin',
+    USER_URL: 'https://kickscorner-app-latest.onrender.com/api/users',
+    PAYMENT_URL: 'https://kickscorner-app-latest.onrender.com/api/payment',
+    ORDERS_URL: 'https://kickscorner-app-latest.onrender.com/api/orders'
 };
