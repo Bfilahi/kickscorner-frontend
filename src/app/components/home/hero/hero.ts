@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeroService } from '../../../services/home/hero-service';
 import { gsap } from 'gsap';
@@ -12,7 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './hero.html',
   styleUrl: './hero.css'
 })
-export class Hero implements OnInit, AfterViewInit {
+export class Hero implements AfterViewInit {
 
   @ViewChild('canvas', {static: true})
   public canvas!: ElementRef<HTMLCanvasElement>;
@@ -20,18 +20,15 @@ export class Hero implements OnInit, AfterViewInit {
   @ViewChild('title', {static: true})
   public title!: ElementRef<HTMLElement>;
 
-  private platformId: Object = inject(PLATFORM_ID);
+  @ViewChild('hero2', {static: true}) 
+  public hero2!: ElementRef<HTMLElement>;
 
+  private platformId: Object = inject(PLATFORM_ID);
 
 
   public constructor( private heroService: HeroService ){}
 
 
-
-
-  public ngOnInit(): void {
-    
-  }
 
   public ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -63,6 +60,10 @@ export class Hero implements OnInit, AfterViewInit {
       ease: "back.out(1.7)",
       delay: 1
     });
+  }
+
+  public scrollToHero2(){
+    this.hero2.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
 
   public ngOnDestroy(): void {
