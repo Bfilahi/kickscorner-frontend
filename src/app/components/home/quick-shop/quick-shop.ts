@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ProductService } from '../../../services/product-service';
 import { ProductResponse } from '../../../model/response/product-response';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-quick-shop',
@@ -26,11 +27,13 @@ export class QuickShop implements OnInit{
 
   constructor(
     private productService: ProductService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private spinnerService: NgxSpinnerService
   ){}
 
 
   ngOnInit(): void {
+    this.spinnerService.show();
     this.listProducts(this.partialParams);
   }
 
@@ -43,9 +46,11 @@ export class QuickShop implements OnInit{
         this.partialParams.size = response.size;
 
         this.cdr.detectChanges();
+        this.spinnerService.hide();
       },
       error: (err: HttpErrorResponse) => {
         console.error(err);
+        this.spinnerService.hide();
       }
     });
   }
