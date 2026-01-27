@@ -1,56 +1,117 @@
 import { Routes } from '@angular/router';
-import { Home } from './components/home/home';
-import { PageNotFound } from './components/page-not-found/page-not-found';
-import { Products } from './components/products/products';
-import { ProductDetail } from './components/product-detail/product-detail';
-import { Cart } from './components/user/cart/cart';
-import { Orders } from './components/user/orders/orders';
-import { ProductsList } from './components/admin/products-list/products-list';
-import { Login } from './components/auth/login/login';
-import { Register } from './components/auth/register/register';
-import { SizesList } from './components/admin/sizes-list/sizes-list';
-import { AddSize } from './components/admin/add-size/add-size';
-import { AddColor } from './components/admin/add-color/add-color';
-import { ColorsList } from './components/admin/colors-list/colors-list';
-import { AddBrand } from './components/admin/add-brand/add-brand';
-import { BrandsList } from './components/admin/brands-list/brands-list';
-import { AddProduct } from './components/admin/add-product/add-product';
-import { EditProduct } from './components/admin/edit-product/edit-product';
 import { authGuard } from './guards/auth-guard';
-import { User } from './components/user/user';
 import { adminGuard } from './guards/admin-guard';
-import { ChangePassword } from './components/change-password/change-password';
-import { UsersList } from './components/admin/users-list/users-list';
-import { OrderConfirmation } from './components/payment/order-confirmation/order-confirmation';
-import { PaymentCancel } from './components/payment/payment-cancel/payment-cancel';
 
 
 export const routes: Routes = [
-    {path: 'home', component: Home},
-    {path: 'products', component: Products},
-    {path: 'product/:id', component: ProductDetail},
-    {path: 'cart', component: Cart},
-    
-    {path: 'login', component: Login},
-    {path: 'register', component: Register},
-    {path: 'orders', component: Orders, canActivate: [authGuard]},
-    {path: 'profile', component: User, canActivate: [authGuard]},
-    {path: 'password', component: ChangePassword, canActivate: [authGuard]},
+    {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full'
+    },
+    {
+        path: 'home',
+        loadComponent: () => import('./components/home/home').then(m => m.Home)
+    },
+    {
+        path: 'products',
+        loadComponent: () => import('./components/products/products').then(m => m.Products)
+    },
+    {
+        path: 'product/:id',
+        loadComponent: () => import('./components/product-detail/product-detail').then(m => m.ProductDetail)
+    },
+    {
+        path: 'cart',
+        loadComponent: () => import('./components/user/cart/cart').then(m => m.Cart)
+    },
 
-    {path: 'admin/new-product', component: AddProduct, canActivate: [adminGuard]},
-    {path: 'admin/edit-product/:id', component: EditProduct, canActivate: [adminGuard]},
-    {path: 'admin/products', component: ProductsList, canActivate: [adminGuard]},
-    {path: 'admin/new-size', component: AddSize, canActivate: [adminGuard]},
-    {path: 'admin/sizes', component: SizesList, canActivate: [adminGuard]},
-    {path: 'admin/new-color', component: AddColor, canActivate: [adminGuard]},
-    {path: 'admin/colors', component: ColorsList, canActivate: [adminGuard]},
-    {path: 'admin/new-brand', component: AddBrand, canActivate: [adminGuard]},
-    {path: 'admin/brands', component: BrandsList, canActivate: [adminGuard]},
-    {path: 'admin/users', component: UsersList, canActivate: [adminGuard]},
+    {
+        path: 'login',
+        loadComponent: () => import('./components/auth/login/login').then(m => m.Login)
+    },
+    {
+        path: 'register',
+        loadComponent: () => import('./components/auth/register/register').then(m => m.Register)
+    },
 
-    {path: 'success', component: OrderConfirmation},
-    {path: 'cancel', component: PaymentCancel},
+    {
+        path: '',
+        canActivate: [authGuard],
+        children: [
+            {
+                path: 'orders',
+                loadComponent: () => import('./components/user/orders/orders').then(m => m.Orders)
+            },
+            {
+                path: 'profile',
+                loadComponent: () => import('./components/user/user').then(m => m.User)
+            },
+            {
+                path: 'password',
+                loadComponent: () => import('./components/change-password/change-password').then(m => m.ChangePassword)
+            }
+        ]
+    },
 
-    {path: '', component: Home},
-    {path: '**', component: PageNotFound}
+    {
+        path: '',
+        canActivate: [adminGuard],
+        children: [
+            {
+                path: 'admin/new-product',
+                loadComponent: () => import('./components/admin/add-product/add-product').then(m => m.AddProduct)
+            },
+            {
+                path: 'admin/edit-product/:id',
+                loadComponent: () => import('./components/admin/edit-product/edit-product').then(m => m.EditProduct)
+            },
+            {
+                path: 'admin/products',
+                loadComponent: () => import('./components/admin/products-list/products-list').then(m => m.ProductsList)
+            },
+            {
+                path: 'admin/new-size',
+                loadComponent: () => import('./components/admin/add-size/add-size').then(m => m.AddSize)
+            },
+            {
+                path: 'admin/sizes',
+                loadComponent: () => import('./components/admin/sizes-list/sizes-list').then(m => m.SizesList)
+            },
+            {
+                path: 'admin/new-color',
+                loadComponent: () => import('./components/admin/add-color/add-color').then(m => m.AddColor)
+            },
+            {
+                path: 'admin/colors',
+                loadComponent: () => import('./components/admin/colors-list/colors-list').then(m => m.ColorsList)
+            },
+            {
+                path: 'admin/new-brand',
+                loadComponent: () => import('./components/admin/add-brand/add-brand').then(m => m.AddBrand)
+            },
+            {
+                path: 'admin/brands',
+                loadComponent: () => import('./components/admin/brands-list/brands-list').then(m => m.BrandsList)
+            },
+            {
+                path: 'admin/users',
+                loadComponent: () => import('./components/admin/users-list/users-list').then(m => m.UsersList)
+            }
+        ]
+    },
+
+    {
+        path: 'success',
+        loadComponent: () => import('./components/payment/order-confirmation/order-confirmation').then(m => m.OrderConfirmation)
+    },
+    {
+        path: 'cancel',
+        loadComponent: () => import('./components/payment/payment-cancel/payment-cancel').then(m => m.PaymentCancel)
+    },
+
+    {
+        path: '**',
+        loadComponent: () => import('./components/page-not-found/page-not-found').then(m => m.PageNotFound)
+    }
 ];
