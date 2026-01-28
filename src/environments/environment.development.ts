@@ -4,5 +4,5 @@ export const environment = {
     ADMIN_BASE_URL: 'https://kickscorner-app-latest.onrender.com/api/admin',
     USER_URL: 'https://kickscorner-app-latest.onrender.com/api/users',
     PAYMENT_URL: 'https://kickscorner-app-latest.onrender.com/api/payment',
-    ORDERS_URL: 'https://kickscorner-app-latest.onrender.com/api/orders'
+    ORDERS_URL: 'https://kickscorner-app-latest.onrender.com/api/orders',
 };
