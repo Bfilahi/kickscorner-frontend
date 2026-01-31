@@ -16,12 +16,12 @@
                 @if (isAdmin) {
                     <li class="relative ml-auto">
                         <button class="cursor-pointer btn-admin">Admin</button>
-                        <div class="absolute top-full left-0 z-10 flex flex-col shadow-sm rounded-sm bg-black overflow-hidden border border-gray-700 opacity-0 pointer-events-none">
-                            <a routerLink="/admin/products" class="hover:bg-gray-50 dark:hover:bg-gray-700 px-5 py-1">Products</a>
-                            <a routerLink="/admin/brands" class="hover:bg-gray-50 dark:hover:bg-gray-700 px-5 py-1">Brands</a>
-                            <a routerLink="/admin/colors" class="hover:bg-gray-50 dark:hover:bg-gray-700 px-5 py-1">Colors</a>
-                            <a routerLink="/admin/sizes" class="hover:bg-gray-50 dark:hover:bg-gray-700 px-5 py-1">Sizes</a>
-                            <a routerLink="/admin/users" class="hover:bg-gray-50 dark:hover:bg-gray-700 px-5 py-1">Users</a>
+                        <div class="absolute top-full left-0 z-10 flex flex-col shadow-sm rounded-sm bg-white dark:bg-black overflow-hidden dark:border dark:border-gray-700 opacity-0 pointer-events-none">
+                            <a routerLink="/admin/products" class="hover:bg-gray-100 dark:hover:bg-gray-700 px-5 py-1">Products</a>
+                            <a routerLink="/admin/brands" class="hover:bg-gray-100 dark:hover:bg-gray-700 px-5 py-1">Brands</a>
+                            <a routerLink="/admin/colors" class="hover:bg-gray-100 dark:hover:bg-gray-700 px-5 py-1">Colors</a>
+                            <a routerLink="/admin/sizes" class="hover:bg-gray-100 dark:hover:bg-gray-700 px-5 py-1">Sizes</a>
+                            <a routerLink="/admin/users" class="hover:bg-gray-100 dark:hover:bg-gray-700 px-5 py-1">Users</a>
                         </div>
                     </li>
                 }
@@ -30,14 +30,14 @@
                     <div class="user cursor-pointer relative">
                         <i class="fa-solid fa-user"></i>
 
-                        <div class="absolute top-full left-0 z-10 w-32 rounded-sm shadow-sm dark:border dark:border-gray-700 flex flex-col bg-black opacity-0 pointer-events-none">
+                        <div class="absolute top-full left-0 z-10 w-32 rounded-sm shadow-sm dark:border dark:border-gray-700 flex flex-col bg-white dark:bg-black opacity-0 pointer-events-none">
                             @if (!isLoggedIn) {
-                                <a routerLink="/login" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">Login</a>
+                                <a routerLink="/login" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">Login</a>
                             }
                             @else {
-                                <a routerLink="/profile" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Account</a>
-                                <a routerLink="/orders" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Orders</a>
-                                <button (click)="logout()" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">Logout</button>
+                                <a routerLink="/profile" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Account</a>
+                                <a routerLink="/orders" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Orders</a>
+                                <button (click)="logout()" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">Logout</button>
                             }
                         </div>
                     </div>

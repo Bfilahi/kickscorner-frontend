@@ -13,7 +13,9 @@ export class HeroService {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
-  private ambientLight!: THREE.AmbientLight;
+  private directionalLight!: THREE.DirectionalLight;
+  private planeGeometry!: THREE.PlaneGeometry;
+  private planeMaterial!: THREE.ShadowMaterial;
 
   private model!: THREE.Object3D;
   private gltfLoader!: GLTFLoader;
@@ -42,6 +44,7 @@ export class HeroService {
     });
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.shadowMap.enabled = true;
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(
@@ -54,9 +57,27 @@ export class HeroService {
     this.camera.position.z = 5;
     this.scene.add(this.camera);
 
-    // Lights
-    this.ambientLight = new THREE.AmbientLight(0xffffff, 5);
-    this.scene.add(this.ambientLight);
+    this.directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    this.directionalLight.position.set(5, 5, 5);
+    this.directionalLight.shadow.camera.near = 0.5;
+    this.directionalLight.shadow.camera.far = 500;
+    this.directionalLight.shadow.camera.left = -10;
+    this.directionalLight.shadow.camera.right = 10;
+    this.directionalLight.shadow.camera.top = 10;
+    this.directionalLight.shadow.camera.bottom = -10;
+    this.directionalLight.shadow.mapSize.set(1024, 1024);
+    this.directionalLight.castShadow = true;
+    this.scene.add(this.directionalLight);
+
+    // Floor
+    this.planeGeometry = new THREE.PlaneGeometry(20, 20);
+    this.planeMaterial = new THREE.ShadowMaterial({ opacity: 0.3 });
+    const floor = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
+
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -1;
+    floor.receiveShadow = true;
+    this.scene.add(floor);
 
     // Load 3d model
     this.loadModel();
@@ -64,8 +85,14 @@ export class HeroService {
 
   private loadModel(){
     this.gltfLoader.load('/models/shoe.glb', (gltf) =>{
-
       this.model = gltf.scene;
+
+      this.model.traverse((node) => {
+        if ((node as THREE.Mesh).isMesh) {
+          node.castShadow = true;
+          node.receiveShadow = true;
+        }
+      });
 
       this.model.scale.set(.4, .4, .4);
       this.model.position.set(5, 0, 0);
@@ -74,8 +101,6 @@ export class HeroService {
       this.scene.add(this.model);
 
       this.playInitialAnimation();
-
-      // Setup scroll trigger after model is loaded
       this.setupScrollTrigger();
 
     });

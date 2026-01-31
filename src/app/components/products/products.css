@@ -15,3 +15,9 @@
     background-color: #ffd972;
     color: #000;
 }
+
+@media (prefers-color-scheme: light){
+    .pagination ::ng-deep .ngx-pagination .ng-star-inserted{
+        color: black;
+    }
+}
