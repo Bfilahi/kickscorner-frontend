@@ -49,7 +49,7 @@ export class ProductService {
 }
 
 
-interface GetResponseProducts{
+export interface GetResponseProducts{
   content: ProductResponse[],
   size: number,
   totalElements: number,
