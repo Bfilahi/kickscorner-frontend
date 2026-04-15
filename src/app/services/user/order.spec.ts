@@ -95,6 +95,10 @@ describe('Order', () => {
     service = TestBed.inject(Order);
   });
 
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });

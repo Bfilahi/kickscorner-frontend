@@ -5,6 +5,7 @@ import { UserService } from '../../services/user/user-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CustomValidators } from '../../validators/custom-validators';
+import { PasswordUpdateRequest } from '../../model/request/password-update-request';
 
 
 
