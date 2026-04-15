@@ -80,7 +80,7 @@ describe('ProductService', () => {
     it('should call the function with the correct URL', () => {
       service
         .getProducts({ page: 4, size: 10, sort: '', direction: '' })
-        .subscribe((res) => expect(res).toBe(responseProducts));
+        .subscribe((res) => expect(res).toEqual(responseProducts));
 
       let req = httpTestingController.expectOne((req) => req.url === url);
       expect(req.request.method).toBe('GET');
@@ -94,7 +94,7 @@ describe('ProductService', () => {
     it('should return the response body', () => {
       service
         .getProducts({ page: 4, size: 10, sort: '', direction: '' })
-        .subscribe((res) => expect(res).toBe(responseProducts));
+        .subscribe((res) => expect(res).toEqual(responseProducts));
 
       httpTestingController
         .expectOne((req) => req.url === url)

@@ -38,7 +38,7 @@ export class Admin {
   }
 }
 
-interface GetResponseUsers{
+export interface GetResponseUsers{
   content: UserResponse[],
   size: number,
   totalElements: number,
