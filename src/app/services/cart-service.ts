@@ -46,7 +46,7 @@ export class CartService {
 
   public removeFromCart(cartItem: CartItem){
     let cartItems: CartItem[] = this.cartItemsSubject.value;
-    cartItems = cartItems.filter(i => i.id !== cartItem.id);
+    cartItems = cartItems.filter(i => !(i.id === cartItem.id && i.selectedSize === cartItem.selectedSize));
 
     this.cartItemsSubject.next(cartItems);
 
