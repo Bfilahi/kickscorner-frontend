@@ -19,10 +19,8 @@ export class AuthService {
 
   private baseUrl: string = environment.AUTH_URL;
   private isBrowser: boolean = false;
-  private jwtHelper = new JwtHelperService();
 
-
-  private authStateSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  private authStateSubject = new BehaviorSubject<boolean>(false);
   public authState$ = this.authStateSubject.asObservable();
 
   
@@ -31,9 +29,12 @@ export class AuthService {
     private http: HttpClient, 
     @Inject(PLATFORM_ID) platformId: Object, 
     private router: Router,
-    private userService: UserService) {
+    private userService: UserService,
+    private jwtHelper: JwtHelperService
+  ) {
 
     this.isBrowser = isPlatformBrowser(platformId);
+    this.authStateSubject.next(this.isLoggedIn());
   }
 
 
