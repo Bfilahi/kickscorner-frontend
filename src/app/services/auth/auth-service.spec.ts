@@ -273,15 +273,7 @@ describe('AuthService', () => {
       expect(console.error).toHaveBeenCalled();
     });
   });
-
-  
 });
-
-
-
-
-
-
 
 
 describe('non-browser environment', () => {
@@ -328,18 +320,3 @@ describe('non-browser environment', () => {
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-// Cross-cutting
-
-// All localStorage interactions are skipped (no errors thrown) when PLATFORM_ID is not browser
-// isLoggedIn() side-effect: expired token triggers logout(), which clears storage and updates authState$
