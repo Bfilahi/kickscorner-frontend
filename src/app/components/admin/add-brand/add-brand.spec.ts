@@ -27,7 +27,6 @@ describe('AddBrand', () => {
 
   beforeEach(async () => {
     mockAdminProductService = jasmine.createSpyObj(['addBrand']);
-    form = jasmine.createSpyObj('NgForm', ['reset']);
 
     await TestBed.configureTestingModule({
       imports: [AddBrand, ToastrModule.forRoot(), NoopAnimationsModule],
@@ -65,10 +64,10 @@ describe('AddBrand', () => {
     });
     
     it('should enable submit button when the form is valid', async () => {
-      const email = fixture.debugElement.query(By.css('input[type="text"]'));
-      const emailModel = email.injector.get(NgModel);
+      const name = fixture.debugElement.query(By.css('input[type="text"]'));
+      const nameModel = name.injector.get(NgModel);
 
-      emailModel.control.setValue('some-name');
+      nameModel.control.setValue('some-name');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -79,11 +78,11 @@ describe('AddBrand', () => {
     });
 
     it('should show an error message when field is touched, dirty, and empty', async () => {
-      const email = fixture.debugElement.query(By.css('input[type="text"]'));
-      const emailModel = email.injector.get(NgModel);
+      const name = fixture.debugElement.query(By.css('input[type="text"]'));
+      const nameModel = name.injector.get(NgModel);
 
-      emailModel.control.markAllAsTouched();
-      emailModel.control.markAsDirty();
+      nameModel.control.markAllAsTouched();
+      nameModel.control.markAsDirty();
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -94,12 +93,12 @@ describe('AddBrand', () => {
     });
 
     it('should show an error message when input is shorter than 2 characters', async () => {
-      const email = fixture.debugElement.query(By.css('input[type="text"]'));
-      const emailModel = email.injector.get(NgModel);
+      const name = fixture.debugElement.query(By.css('input[type="text"]'));
+      const nameModel = name.injector.get(NgModel);
 
-      emailModel.control.setValue('a');
-      emailModel.control.markAllAsTouched();
-      emailModel.control.markAsDirty();
+      nameModel.control.setValue('a');
+      nameModel.control.markAllAsTouched();
+      nameModel.control.markAsDirty();
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -110,10 +109,10 @@ describe('AddBrand', () => {
     });
 
     it('should hide the error messages when the field is untouched', async () => {
-      const email = fixture.debugElement.query(By.css('input[type="text"]'));
-      const emailModel = email.injector.get(NgModel);
+      const name = fixture.debugElement.query(By.css('input[type="text"]'));
+      const nameModel = name.injector.get(NgModel);
 
-      emailModel.control.markAsUntouched();
+      nameModel.control.markAsUntouched();
 
       fixture.detectChanges();
       await fixture.whenStable();
