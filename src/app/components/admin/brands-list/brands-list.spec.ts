@@ -202,7 +202,7 @@ describe('BrandsList', () => {
       expect(spinnerService.hide).toHaveBeenCalled();
     });
 
-    it('should call toastr.success with the deleted brand\s name', () => {
+    it('should call toastr.success with the deleted brand\'s name', () => {
       const deletedBrand = brandResponse.find(brand => brand.id === id);
       component.brands = brandResponse;
       mockAdminProductService.deleteBrand.and.returnValue(of(void 0));
@@ -333,6 +333,5 @@ describe('BrandsList', () => {
       expect(txt).toBeNull();
     });
   });
-
 
 });
