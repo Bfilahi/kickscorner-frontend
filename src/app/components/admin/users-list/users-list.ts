@@ -127,7 +127,7 @@ export class UsersList implements OnInit{
       next: (response: any) => {
         this.users = response.content;
 
-        this.totalItems = response.page.totalElements;
+        this.totalItems = response.totalElements;
         this.partialParams.page = response.page.number + 1;
         this.partialParams.size = response.page.size;
 
