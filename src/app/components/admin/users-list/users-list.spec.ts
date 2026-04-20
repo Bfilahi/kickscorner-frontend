@@ -24,7 +24,7 @@ describe('UsersList', () => {
   let toastr: ToastrService;
 
   let mockPartialParams: {page: number, size: number, sort: string, direction: string};
-  let mockUserResponse: GetResponseUsers[];
+  let mockUserResponse: GetResponseUsers;
 
   beforeEach(async () => {
     mockAdminService = jasmine.createSpyObj([
@@ -56,7 +56,7 @@ describe('UsersList', () => {
       direction: '',
     };
 
-    mockUserResponse = [{
+    mockUserResponse = {
       content: [
         {
           id: 1,
@@ -71,11 +71,13 @@ describe('UsersList', () => {
           authorities: [{authority: 'ROLE_USER'}, {authority: 'ROLE_ADMIN'}]
         }
       ],
-      size: 5,
-      totalElements: 10,
-      totalPages: 2,
-      number: 1
-    }];
+      page: {
+        size: 5,
+        totalElements: 10,
+        totalPages: 2,
+        number: 1
+      }
+    };
 
     spinnerService = TestBed.inject(NgxSpinnerService);
     toastr = TestBed.inject(ToastrService);
@@ -90,14 +92,52 @@ describe('UsersList', () => {
 
   describe('initialization', () => {
     it('should call listUsers with defaultParams and sets currentUser$', () => {
-      mockUserService.getUserInfo.and.returnValue(of(mockUserResponse[0].content[0]));
+      mockUserService.getUserInfo.and.returnValue(of(mockUserResponse.content[0]));
       spyOn(component as any, 'listUsers');
 
       component.ngOnInit();
 
       expect(component['listUsers']).toHaveBeenCalledWith(mockPartialParams);
-      component.currentUser$.subscribe(res => expect(res).toEqual(mockUserResponse[0].content[0]));
+      component.currentUser$.subscribe(res => expect(res).toEqual(mockUserResponse.content[0]));
     });
+  });
+
+  describe('listUsers', () => {
+    it('should populate users, totalItems, partialParams.page/size on success', () => {
+      mockAdminService.getAllUsers.and.returnValue(of(mockUserResponse))
+
+      component.ngOnInit();
+
+      expect(component.users).toEqual(mockUserResponse.content);
+      expect(component.totalItems).toBe(mockUserResponse.page.totalElements);
+      expect(component.partialParams.page).toBe(mockUserResponse.page.number + 1);
+      expect(component.partialParams.size).toBe(mockUserResponse.page.size);
+    });
+
+    it('should set isLoading = false and hide spinner after success', () => {
+      mockAdminService.getAllUsers.and.returnValue(of(mockUserResponse));
+      spyOn(spinnerService, 'hide');
+
+      component.ngOnInit();
+
+      expect(component.isLoading).toBeFalse();
+      expect(spinnerService.hide).toHaveBeenCalled();
+    });
+
+    it('should set isLoading = false and hide spinner after error', () => {
+      const error: HttpErrorResponse = new HttpErrorResponse({
+        status: 500,
+        error: {message: 'Something went wrong'}
+      });
+      mockAdminService.getAllUsers.and.returnValue(throwError(() => error));
+      spyOn(spinnerService, 'hide');
+
+      component.ngOnInit();
+
+      expect(component.isLoading).toBeFalse();
+      expect(spinnerService.hide).toHaveBeenCalled();
+    });
+
   });
 
   describe('promoteToAdmin', () => {
@@ -108,7 +148,7 @@ describe('UsersList', () => {
     );
 
     it('should call adminService.promoteToAdmin(id) with correct id', () => {
-      mockAdminService.promoteToAdmin.and.returnValue(of(mockUserResponse[0].content[0]));
+      mockAdminService.promoteToAdmin.and.returnValue(of(mockUserResponse.content[0]));
 
       component.promoteToAdmin(id);
 
@@ -116,14 +156,14 @@ describe('UsersList', () => {
     });
 
     it('should show success toastr with response.fullName on success', () => {
-      mockAdminService.promoteToAdmin.and.returnValue(of(mockUserResponse[0].content[0]));
+      mockAdminService.promoteToAdmin.and.returnValue(of(mockUserResponse.content[0]));
       spyOn(toastr, 'success');
 
       component.promoteToAdmin(id);
 
       expect(toastr.success).toHaveBeenCalledWith(
         'User promoted to admin successfully',
-        mockUserResponse[0].content[0].fullName,
+        mockUserResponse.content[0].fullName,
         { progressBar: true }
       );
     });
@@ -138,7 +178,7 @@ describe('UsersList', () => {
     });
 
     it('should hide spinner on success', () => {
-      mockAdminService.promoteToAdmin.and.returnValue(of(mockUserResponse[0].content[0]));
+      mockAdminService.promoteToAdmin.and.returnValue(of(mockUserResponse.content[0]));
       spyOn(spinnerService, 'hide');
 
       component.promoteToAdmin(id);
@@ -164,7 +204,7 @@ describe('UsersList', () => {
     );
 
     it('should call adminService.promoteToSuperAdmin(id) with correct id', () => {
-      mockAdminService.promoteToSuperAdmin.and.returnValue(of(mockUserResponse[0].content[0]));
+      mockAdminService.promoteToSuperAdmin.and.returnValue(of(mockUserResponse.content[0]));
 
       component.promoteToSuperAdmin(id);
 
@@ -172,14 +212,14 @@ describe('UsersList', () => {
     });
 
     it('should show success toastr with response.fullName on success', () => {
-      mockAdminService.promoteToSuperAdmin.and.returnValue(of(mockUserResponse[0].content[0]));
+      mockAdminService.promoteToSuperAdmin.and.returnValue(of(mockUserResponse.content[0]));
       spyOn(toastr, 'success');
 
       component.promoteToSuperAdmin(id);
 
       expect(toastr.success).toHaveBeenCalledWith(
         'User promoted to super-admin successfully',
-        mockUserResponse[0].content[0].fullName,
+        mockUserResponse.content[0].fullName,
         { progressBar: true },
       );
     });
@@ -194,7 +234,7 @@ describe('UsersList', () => {
     });
 
     it('should hide spinner on success', () => {
-      mockAdminService.promoteToSuperAdmin.and.returnValue(of(mockUserResponse[0].content[0]));
+      mockAdminService.promoteToSuperAdmin.and.returnValue(of(mockUserResponse.content[0]));
       spyOn(spinnerService, 'hide');
 
       component.promoteToSuperAdmin(id);
@@ -225,19 +265,19 @@ describe('UsersList', () => {
     });
 
     it('should remove the deleted user from this.users on success', () => {
-      component.users = mockUserResponse[0].content;
+      component.users = mockUserResponse.content;
       mockAdminService.deleteUser.and.returnValue(of(void 0));
       spyOn(window, 'confirm').and.returnValue(true);
 
       component.delete(id);
 
-      expect(component.users).toEqual([mockUserResponse[0].content[1]]);
-      const filteredUsers = mockUserResponse[0].content.filter(u => u.id !== id);
+      expect(component.users).toEqual([mockUserResponse.content[1]]);
+      const filteredUsers = mockUserResponse.content.filter(u => u.id !== id);
       filteredUsers.every(u => expect(u.id !== id).toBeTrue());
     });
 
     it('should call cdr.detectChanges() after deletion', () => {
-      component.users = mockUserResponse[0].content;
+      component.users = mockUserResponse.content;
       mockAdminService.deleteUser.and.returnValue(of(void 0));
       spyOn(window, 'confirm').and.returnValue(true);
       const cdrSpy = spyOn(component['cdr'], 'detectChanges');
@@ -248,14 +288,14 @@ describe('UsersList', () => {
     });
 
     it('should show toastr.correct', () => {
-      component.users = mockUserResponse[0].content;
+      component.users = mockUserResponse.content;
       mockAdminService.deleteUser.and.returnValue(of(void 0));
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(toastr, 'success');
 
       component.delete(id);
 
-      const deletedUser = mockUserResponse[0].content.find(u => u.id === id);
+      const deletedUser = mockUserResponse.content.find(u => u.id === id);
       expect(toastr.success).toHaveBeenCalledWith(
         deletedUser?.fullName,
         'User deleted successfully',
@@ -342,7 +382,7 @@ describe('UsersList', () => {
         email: 'adam.bianchi@example.com',
         authorities: [{authority: 'ROLE_SUPER_USER'}]
       };
-      component.users = [mockUserResponse[0].content[0]];
+      component.users = [mockUserResponse.content[0]];
       component.currentUser$ = of(currentUser);
       spyOnProperty(component, 'isSuperAdmin').and.returnValue(true);
 
@@ -377,7 +417,7 @@ describe('UsersList', () => {
 
       expect(elem_1.nativeElement.classList.contains('hidden')).toBeTrue();
 
-      component.users = mockUserResponse[0].content;
+      component.users = mockUserResponse.content;
 
       fixture.detectChanges();
 
@@ -389,7 +429,7 @@ describe('UsersList', () => {
     });
 
     it('should have $index = 0 for the first colum', () => {
-      component.users = mockUserResponse[0].content;
+      component.users = mockUserResponse.content;
 
       fixture.detectChanges();
 
@@ -398,5 +438,3 @@ describe('UsersList', () => {
     });
   });
 });
-
-// $index in the first column starts at 0 (worth flagging — you may want 1-based display)

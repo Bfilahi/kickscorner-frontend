@@ -51,8 +51,10 @@ export class ProductService {
 
 export interface GetResponseProducts{
   content: ProductResponse[],
-  size: number,
-  totalElements: number,
-  totalPages: number,
-  number: number
+  page:{
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number
+  }
 }

@@ -58,10 +58,12 @@ describe('ProductService', () => {
           ],
         },
       ],
-      size: 10,
-      totalElements: 50,
-      totalPages: 5,
-      number: 1,
+      page: {
+        size: 10,
+        totalElements: 50,
+        totalPages: 5,
+        number: 1,
+      }
     };
 
     httpTestingController = TestBed.inject(HttpTestingController);

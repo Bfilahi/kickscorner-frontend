@@ -11,17 +11,16 @@ describe('Admin', () => {
   let service: Admin;
   let httpTestingController: HttpTestingController;
 
-  let mockResponseUsers: GetResponseUsers[];
+  let mockResponseUsers: GetResponseUsers;
   let url: string = environment.ADMIN_BASE_URL;
-  let id: number;
+  let id: number = 1;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
-    id = 1;
-    mockResponseUsers = [
+    mockResponseUsers =
       {
         content: [
           {
@@ -40,32 +39,13 @@ describe('Admin', () => {
             ],
           },
         ],
-        size: 2,
+      page: {
+        size: 10,
         totalElements: 2,
         totalPages: 1,
-        number: 0,
-      },
-      {
-        content: [
-          {
-            id: 3,
-            fullName: 'Anna Verdi',
-            email: 'anna.verdi@example.com',
-            authorities: [{ authority: 'ROLE_USER' }],
-          },
-          {
-            id: 4,
-            fullName: 'Giulia Neri',
-            email: 'giulia.neri@example.com',
-            authorities: [{ authority: 'ROLE_USER' }],
-          },
-        ],
-        size: 2,
-        totalElements: 4,
-        totalPages: 2,
-        number: 1,
-      },
-    ];
+        number: 0
+        }
+      };
 
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(Admin);
@@ -116,12 +96,12 @@ describe('Admin', () => {
 
   describe('promoteToAdmin()', () => {
     it('should call the method correctly', () => {
-      service.promoteToAdmin(id).subscribe(res => expect(res).toEqual(mockResponseUsers[0].content[0]));
+      service.promoteToAdmin(id).subscribe(res => expect(res).toEqual(mockResponseUsers.content[0]));
 
       let req = httpTestingController.expectOne(`${url}/${id}/promote/admin`);
       expect(req.request.method).toBe('PUT');
       expect(req.request.body).toBe(id);
-      req.flush(mockResponseUsers[0].content[0]);
+      req.flush(mockResponseUsers.content[0]);
     });
 
     it('should propagate HTTP errors', () => {
@@ -137,12 +117,12 @@ describe('Admin', () => {
 
   describe('promoteToSuperAdmin()', () => {
     it('should call the method correctly', () => {
-      service.promoteToSuperAdmin(id).subscribe(res => expect(res).toEqual(mockResponseUsers[0].content[0]));
+      service.promoteToSuperAdmin(id).subscribe(res => expect(res).toEqual(mockResponseUsers.content[0]));
 
       let req = httpTestingController.expectOne(`${url}/${id}/promote/super-admin`);
       expect(req.request.method).toBe('PUT');
       expect(req.request.body).toBe(id);
-      req.flush(mockResponseUsers[0].content[0]);
+      req.flush(mockResponseUsers.content[0]);
     });
 
     it('should propagate HTTP errors', () => {

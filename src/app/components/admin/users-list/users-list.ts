@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserResponse } from '../../../model/response/user-response';
-import { Admin } from '../../../services/admin/admin';
+import { Admin, GetResponseUsers } from '../../../services/admin/admin';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -124,10 +124,10 @@ export class UsersList implements OnInit{
     this.spinnerService.show();
 
     this.adminService.getAllUsers(partialParams).subscribe({
-      next: (response: any) => {
+      next: (response: GetResponseUsers) => {
         this.users = response.content;
 
-        this.totalItems = response.totalElements;
+        this.totalItems = response.page.totalElements;
         this.partialParams.page = response.page.number + 1;
         this.partialParams.size = response.page.size;
 
@@ -140,7 +140,7 @@ export class UsersList implements OnInit{
         console.error(err);
         this.spinnerService.hide();
         this.isLoading = false;
-      }
+      },
     });
   }
 

@@ -7,15 +7,19 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { authInterceptor } from './interceptors/auth-interceptor';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,
+    
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideAnimations(),
     provideToastr(),
-  ]
+  ],
 };

@@ -14,7 +14,7 @@ export class Admin {
   constructor(private http: HttpClient) { }
 
 
-  public getAllUsers(partialParams: {page: number, size: number, sort: string, direction: string}): Observable<GetResponseUsers[]>{
+  public getAllUsers(partialParams: {page: number, size: number, sort: string, direction: string}): Observable<GetResponseUsers>{
     let params = new HttpParams()
       .set('page', partialParams.page - 1)
       .set('size', partialParams.size)
@@ -22,7 +22,7 @@ export class Admin {
       .set('direction', partialParams.direction);
 
     const url: string = `${this.baseUrl}/users`;
-    return this.http.get<GetResponseUsers[]>(url, { params });
+    return this.http.get<GetResponseUsers>(url, { params });
   }
 
   public promoteToAdmin(id: number): Observable<UserResponse>{
@@ -40,8 +40,10 @@ export class Admin {
 
 export interface GetResponseUsers{
   content: UserResponse[],
-  size: number,
-  totalElements: number,
-  totalPages: number,
-  number: number
+  page:{
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number
+  }
 }

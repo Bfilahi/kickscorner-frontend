@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ProductResponse } from '../../../model/response/product-response';
-import { ProductService } from '../../../services/product-service';
+import { GetResponseProducts, ProductService } from '../../../services/product-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AdminProductService } from '../../../services/admin/admin-product-service';
 import { ToastrService } from 'ngx-toastr';
@@ -49,7 +49,7 @@ export class ProductsList implements OnInit{
     this.spinnerService.show();
 
     this.productService.getProducts(partialParams).subscribe({
-      next: (response: any) => {
+      next: (response: GetResponseProducts) => {
         this.products = response.content;
         this.totalItems = response.page.totalElements;
         this.partialParams.page = response.page.number + 1;
