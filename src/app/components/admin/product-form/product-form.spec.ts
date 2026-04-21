@@ -36,11 +36,11 @@ describe('ProductForm', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('form initialization', () => {
+  // describe('form initialization', () => {
     // it('should create the form with the correct controls and default values', () => {
 
     // });
-  });
+  // });
 });
 
 // form initialization: 
