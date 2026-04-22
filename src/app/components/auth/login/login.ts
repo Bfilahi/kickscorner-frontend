@@ -56,7 +56,7 @@ export class Login implements OnInit{
         this.spinnerService.hide();
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMsg.set(`${err.error.message}` || 'Invalid email or password');
+        this.errorMsg.set(err.error.message || 'Invalid email or password');
         console.error(err.error);
         this.spinnerService.hide();
       }
