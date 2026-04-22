@@ -50,7 +50,7 @@ export class Register implements OnInit{
         this.spinnerService.hide();
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMsg.set(`${err.error.message}` || 'Registration failed')
+        this.errorMsg.set(err.error.message || 'Registration failed')
         console.error(err.error);
         this.spinnerService.hide();
       }
