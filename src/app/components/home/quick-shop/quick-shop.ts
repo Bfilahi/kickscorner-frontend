@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ProductService } from '../../../services/product-service';
+import { GetResponseProducts, ProductService } from '../../../services/product-service';
 import { ProductResponse } from '../../../model/response/product-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -38,10 +38,10 @@ export class QuickShop implements OnInit{
 
   private listProducts(partialParams: {page: number, size: number, sort: string, direction: string}){
     this.productService.getProducts(partialParams).subscribe({
-      next: (response: any) => {
+      next: (response: GetResponseProducts) => {
         this.products = response.content;
-        this.partialParams.page = response.number + 1;
-        this.partialParams.size = response.size;
+        this.partialParams.page = response.page.number + 1;
+        this.partialParams.size = response.page.size;
 
         this.cdr.detectChanges();
       },

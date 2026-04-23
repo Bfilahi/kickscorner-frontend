@@ -1,5 +1,4 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-// import 'zone.js';
 import 'zone.js/testing';
 
 import { Hero } from './hero';
@@ -28,7 +27,6 @@ describe('Hero', () => {
       providers: [
         provideRouter([]),
         {provide: HeroService, useValue: mockHeroService},
-        // {provide: PLATFORM_ID, useValue: 'server'}
       ]
     })
     .compileComponents();
