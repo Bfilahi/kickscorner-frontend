@@ -14,7 +14,7 @@
                 </li>
 
                 @if (isAdmin) {
-                    <li class="relative ml-auto">
+                    <li class="relative ml-auto admin">
                         <button class="cursor-pointer btn-admin">Admin</button>
                         <div class="absolute top-full left-0 z-10 flex flex-col shadow-sm rounded-sm bg-white dark:bg-black overflow-hidden dark:border dark:border-gray-700 opacity-0 pointer-events-none">
                             <a routerLink="/admin/products" class="hover:bg-gray-100 dark:hover:bg-gray-700 px-5 py-1">Products</a>
@@ -35,9 +35,9 @@
                                 <a routerLink="/login" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">Login</a>
                             }
                             @else {
-                                <a routerLink="/profile" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Account</a>
-                                <a routerLink="/orders" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Orders</a>
-                                <button (click)="logout()" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">Logout</button>
+                                <a routerLink="/profile" class="btn cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Account</a>
+                                <a routerLink="/orders" class="btn cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">My Orders</a>
+                                <button (click)="logout()" class="btn btn-logout cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-1 w-full text-left">Logout</button>
                             }
                         </div>
                     </div>
