@@ -8,9 +8,7 @@
                         w-5 h-5 rounded-full 
                         flex items-center justify-center 
                         bg-yellow-400 dark:bg-yellow-600
-                        text-sm">
-                  {{ (items$ | async)?.length }}
-            </span>
+                        text-sm">{{ (items$ | async)?.length }}</span>
         </a>
 
         @if (isMenuOpened) {
@@ -40,9 +38,9 @@
                                 <a routerLink="/login" class="cursor-pointer hover:bg-white dark:hover:bg-gray-500 ml-3 px-3 py-1 rounded-sm text-left">Login</a>
                             }
                             @else {
-                                <a routerLink="/profile" class="cursor-pointer hover:bg-white dark:hover:bg-gray-500 ml-3 px-3 py-1 rounded-sm text-left">My Account</a>
-                                <a routerLink="/orders" class="cursor-pointer hover:bg-white dark:hover:bg-gray-500 ml-3 px-3 py-1 rounded-sm text-left">My Orders</a>
-                                <button (click)="logout()" class="cursor-pointer hover:bg-white dark:hover:bg-gray-500 ml-3 px-3 py-1 rounded-sm text-left">Logout</button>
+                                <a routerLink="/profile" class="btn cursor-pointer hover:bg-white dark:hover:bg-gray-500 ml-3 px-3 py-1 rounded-sm text-left">My Account</a>
+                                <a routerLink="/orders" class="btn cursor-pointer hover:bg-white dark:hover:bg-gray-500 ml-3 px-3 py-1 rounded-sm text-left">My Orders</a>
+                                <button (click)="logout()" class="btn cursor-pointer hover:bg-white dark:hover:bg-gray-500 ml-3 px-3 py-1 rounded-sm text-left">Logout</button>
                             }
                         </div>
                     </details>
@@ -57,7 +55,7 @@
                 </li>
 
                 @if (auth.isAdmin()) {
-                    <li class="relative">
+                    <li class="relative admin-dropdown">
                         <details>
                             <summary class="cursor-pointer">
                                 <span>Admin</span>
