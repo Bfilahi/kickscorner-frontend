@@ -8,7 +8,7 @@
 
                 <div class="flex items-center justify-center gap-2 mt-5">
                     @for (image of product.images; track $index) {
-                        <button class="w-16 border border-gray-300 dark:border-gray-500 cursor-pointer"
+                        <button class="img-btn w-16 border border-gray-300 dark:border-gray-500 cursor-pointer"
                         (click)="selectedImage = image.imgUrl">
                             <img [src]="image.imgUrl" alt="">
                         </button>
@@ -48,13 +48,11 @@
                 <div>
                     <h3 class="font-semibold underline mb-2">BUY NOW:</h3>
                     <div class="flex items-center gap-3.5">
-                        <button class="font-medium bg-yellow-500 dark:text-black w-full py-2 rounded-sm enabled:cursor-pointer"
+                        <button class="buy-btn font-medium bg-yellow-500 dark:text-black w-full py-2 rounded-sm enabled:cursor-pointer"
                         [disabled]="!selectedSize"
                         [ngClass]="{'opacity-30 cursor-default': !selectedSize}"
-                        (click)="checkout()">
-                            {{ product.price | currency: 'EUR' }}
-                        </button>
-                        <button class="border border-yellow-500 p-2 enabled:cursor-pointer rounded-sm"
+                        (click)="checkout()">{{ product.price | currency: 'EUR' }}</button>
+                        <button class="buy-btn border border-yellow-500 p-2 enabled:cursor-pointer rounded-sm"
                         [disabled]="!selectedSize"
                         [ngClass]="{'opacity-30 cursor-default': !selectedSize}"
                         (click)="addToCart()">

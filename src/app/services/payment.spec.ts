@@ -51,7 +51,7 @@ describe('Payment', () => {
     }
 
     stripeResponse = {
-      status: '200',
+      status: 'SUCCESS',
       message: 'mock stripe message',
       sessionId: 'mock stripe session id',
       sessionUrl: '/mock-stripe-session-url'

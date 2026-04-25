@@ -97,15 +97,6 @@ describe('Navbar', () => {
   });
 
   describe('initialization', () => {
-    let cartSubject: BehaviorSubject<CartItem[]>;
-    
-    beforeEach(() => {
-      cartSubject = new BehaviorSubject<CartItem[]>([]);
-      Object.defineProperty(mockCartService, 'cartItems$', {
-        value: cartSubject.asObservable()
-      });
-    });
-
     it('should assign items$ from cartService.cartItems$ on ngOnInit', () => {
       cartSubject.next(mockCartItems);
 
@@ -160,17 +151,19 @@ describe('Navbar', () => {
 
     it('should show My Account, My Orders, and Logout when authenticated', () => {
       mockAuthService.isLoggedIn.and.returnValue(true);
-
+      
       fixture.detectChanges();
 
-      let btns = fixture.debugElement.queryAll(By.css('.btn'));
+      let userMenu = fixture.debugElement.query(By.css('.user'));
+      let btns = userMenu.queryAll(By.css('.btn'));
       expect(btns.length).toBe(3);
 
       mockAuthService.isLoggedIn.and.returnValue(false);
 
       fixture.detectChanges();
 
-      btns = fixture.debugElement.queryAll(By.css('.btn'));
+      userMenu = fixture.debugElement.query(By.css('.user'));
+      btns = userMenu.queryAll(By.css('.btn'));
       expect(btns).toEqual([]);
     });
 
