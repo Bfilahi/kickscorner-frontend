@@ -21,19 +21,19 @@
                                     </div>
 
                                     <div class="flex items-center gap-4 ml-auto">
-                                        <button class="cursor-pointer w-14 border border-gray-300 dark:border-gray-600 py-0.5 rounded-sm"
+                                        <button class="dec-btn cursor-pointer w-14 border border-gray-300 dark:border-gray-600 py-0.5 rounded-sm"
                                         (click)="this.cartService.decrementQuantity(cartItem)">
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
 
                                         <span>{{ cartItem.quantity }}</span>
 
-                                        <button class="cursor-pointer w-14 border border-gray-300 dark:border-gray-600 py-0.5 rounded-sm"
+                                        <button class="inc-btn cursor-pointer w-14 border border-gray-300 dark:border-gray-600 py-0.5 rounded-sm"
                                         (click)="this.cartService.incrementQuantity(cartItem)">
                                             <i class="fa-solid fa-plus"></i>
                                         </button>
 
-                                        <button class="cursor-pointer border border-red-500 text-red-500 py-0.5 px-2 font-semibold dark:font-normal rounded-sm"
+                                        <button class="remove-btn cursor-pointer border border-red-500 text-red-500 py-0.5 px-2 font-semibold dark:font-normal rounded-sm"
                                         (click)="this.cartService.removeFromCart(cartItem)">
                                             Remove
                                         </button>
@@ -43,7 +43,7 @@
                         }
                         </div>
 
-                        <button class="cursor-pointer bg-yellow-500 font-bold dark:text-black py-2 rounded-sm w-fit px-2.5 ml-auto"
+                        <button class="clear-btn cursor-pointer bg-yellow-500 font-bold dark:text-black py-2 rounded-sm w-fit px-2.5 ml-auto"
                         (click)="clearCart()">
                             Clear cart
                         </button>
@@ -70,7 +70,7 @@
                     </a>
                 }
                 @else {
-                    <button class="cursor-pointer bg-yellow-500 font-bold dark:text-black w-full py-2 rounded-sm"
+                    <button class="checkout-btn cursor-pointer bg-yellow-500 font-bold dark:text-black w-full py-2 rounded-sm"
                     (click)="checkout()">
                         Checkout
                     </button>
