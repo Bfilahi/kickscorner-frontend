@@ -50,7 +50,7 @@ describe('authGuard', () => {
     expect(result).toBeFalse();
   });
 
-  it('should call router.navigate with /login', () => {
+  it('should call router.navigate with /login if not logged in', () => {
     mockAuthService.isLoggedIn.and.returnValue(false);
     spyOn(router, 'navigate');
 
