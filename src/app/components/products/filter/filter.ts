@@ -6,8 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SizeResponse } from '../../../model/response/size-response';
 import { ColorResponse } from '../../../model/response/color-response';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../../services/product-service';
-import { ProductResponse } from '../../../model/response/product-response';
+import { GetResponseProducts, ProductService } from '../../../services/product-service';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -127,21 +126,27 @@ export class Filter implements OnInit{
     this.partialParams.page = 1; 
     this.partialParams.size = 10; 
 
-    this.productService.getFilteredProducts(this.partialParams, this.selectedBrands, this.selectedSizes, this.selectedColors)
+    this.productService
+      .getFilteredProducts(
+        this.partialParams,
+        this.selectedBrands,
+        this.selectedSizes,
+        this.selectedColors,
+      )
       .subscribe({
-        next: (response: any) => {
+        next: (response: GetResponseProducts) => {
           this.getProducts.emit({
             response,
             brands: this.selectedBrands,
             sizes: this.selectedSizes,
-            colors: this.selectedColors
+            colors: this.selectedColors,
           });
           this.spinnerService.hide();
         },
         error: (err: HttpErrorResponse) => {
           console.error(err.error);
           this.spinnerService.hide();
-        }
+        },
       });
   }
 
