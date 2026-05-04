@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentCancel } from './payment-cancel';
+import { provideRouter } from '@angular/router';
 
 describe('PaymentCancel', () => {
   let component: PaymentCancel;
@@ -8,7 +9,10 @@ describe('PaymentCancel', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PaymentCancel]
+      imports: [PaymentCancel],
+      providers: [
+        provideRouter([])
+      ]
     })
     .compileComponents();
 

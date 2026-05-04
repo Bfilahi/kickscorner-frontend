@@ -15,7 +15,7 @@ describe('Navbar', () => {
   let fixture: ComponentFixture<Navbar>;
 
   let mockCartService: jasmine.SpyObj<CartService>;
-  let mockAuthService: jasmine.SpyObj<AuthService>; 
+  let mockAuthService: jasmine.SpyObj<AuthService>;
   let mockUserService: jasmine.SpyObj<UserService>;
 
   let mockCartItems: CartItem[];
